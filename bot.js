@@ -1,18 +1,36 @@
-require("dotenv").config()
+require("dotenv").config();
 
-const { Client, Intents } = require('discord.js');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const { Client, Intents } = require("discord.js");
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+});
 
-client.on("ready", () =>{
-    console.log("Our bot is ready to go");
+const bot_prefix = "!";
+const mod_me_command = "mod-me";
+
+client.on("ready", () => {
+  console.log("Our bot is ready to go!");
+});
+
+client.on("messageDelete", msg => {
+    //
 })
 
-client.on("message", msg => {
-    // check if the message is ping
-    if (msg.content === "ping") {
-      // if the message is ping, reply with pong
-      msg.reply("pong!");
-    }
-  })
+client.on("message", (msg) => {
+    if (msg.content === "i love jutebi") {
+        msg.react('❤️');
+      }
 
-client.login(process.env.BOT_TOKEN)
+  if (msg.content === "ping") {
+    msg.reply("pong!");
+  }
+  if (msg.content === `${bot_prefix}${mod_me_command}`) {
+    modUser(msg.member)
+  }
+});
+
+function modUser(member) {
+    member.roles.add("819244009188491355");
+}
+
+client.login(process.env.BOT_TOKEN);
